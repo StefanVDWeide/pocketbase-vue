@@ -21,7 +21,6 @@ const getOwnedPostList = async () => {
             filter: `user = '${userStore.userID}'`,
             expand: "userdata"
         });
-        // Better error handling
         if (list) {
             posts.value = list
         }

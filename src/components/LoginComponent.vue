@@ -4,7 +4,6 @@ import { pocketBaseSymbol } from '@/symbols/injectionSymbols';
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-
 // Inject the PocketBase client
 const $pb = inject(pocketBaseSymbol);
 
@@ -21,8 +20,8 @@ const password = ref("");
 // Function to authenticate the user based on email and password
 const authUser = async () => {
     try {
+        // Authenticate the user via email and password
         const userData = await $pb?.Users.authViaEmail(email.value, password.value);
-        // TODO: Better error handling
         if (userData) {
             userStore.userID = userData.user.id;
             userStore.username = userData.user.profile?.username;
@@ -30,7 +29,6 @@ const authUser = async () => {
             router.push({ path: "/dashboard" })
         }
     } catch (error) {
-        // TODO: Better error handling
         console.log(error)
     }
 }

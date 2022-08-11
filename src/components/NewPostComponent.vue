@@ -10,6 +10,7 @@ const $pb = inject(pocketBaseSymbol);
 // Init the store
 const userStore = useUserStore();
 
+// Init emits
 const emit = defineEmits(["newPostCreated"])
 
 // State
@@ -31,7 +32,6 @@ const createPost = async () => {
             title.value = "";
             content.value = "";
         }
-        // TODO: success message? Toast maybe? + better error handling
     } catch (error) {
         console.log(error);
     }

@@ -15,7 +15,6 @@ const getPostList = async () => {
         const list = await $pb?.Records.getFullList("posts", 200, {
             expand: "userdata"
         });
-        // Better error handling
         if (list) {
             posts.value = list
         }
@@ -25,8 +24,8 @@ const getPostList = async () => {
 }
 
 const subscribeToAllPosts = async () => {
-    await $pb?.Realtime.subscribe("posts", function (e) {
-        console.log(e);
+    await $pb?.Realtime.subscribe("posts", async function (e) {
+        await getPostList();
     })
 }
 

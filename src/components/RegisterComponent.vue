@@ -42,11 +42,9 @@ const createUser = async () => {
                 console.log("Error");
             }
         } else {
-            // TODO: Better error handling
             alert("Password doesn't match")
         }
     } catch (error) {
-        // TODO: error handling
         console.log(error)
     }
 };
