@@ -26,7 +26,7 @@ const createPost = async () => {
             user: userStore.userID,
             userdata: userStore.userProfileID
         }
-        const response = await $pb?.Records.create("posts", postPayload);
+        const response = await $pb?.collection("posts").create(postPayload);
         if (response) {
             emit('newPostCreated');
             title.value = "";

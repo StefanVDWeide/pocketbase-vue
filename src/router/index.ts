@@ -36,7 +36,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // Init the store within the beforeEach function as per the documentation:
   // https://pinia.vuejs.org/core-concepts/outside-component-usage.html#single-page-applications
-  if (to.meta.requiresAuth && !client?.AuthStore.token) {
+  if (to.meta.requiresAuth && !client?.authStore.token) {
     return {
       path: "/"
     }
