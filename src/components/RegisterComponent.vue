@@ -24,7 +24,8 @@ const createUser = async () => {
     try {
         if (validateInput()) {
             // Create new user
-            const user = await $pb?.Users.create({
+            const user = await $pb?.collection('users').create({
+                username: username.value,
                 email: email.value,
                 password: password.value,
                 passwordConfirm: passwordConfirm.value,
@@ -34,7 +35,7 @@ const createUser = async () => {
                 await authUser();
 
                 // Set the username
-                await $pb?.Records.update("profiles", user.profile!.id, { username: username.value })
+                // await $pb?.Records.update("profiles", user.profile!.id, { username: username.value })
 
                 // After succesfull user registration, redirect to dashboard
                 router.push({ path: "/dashboard" });
@@ -52,7 +53,7 @@ const createUser = async () => {
 // Function to authenticate the user based on email and password
 const authUser = async () => {
     try {
-        const userData = await $pb?.Users.authViaEmail(email.value, password.value);
+        const userData = await $pb?.collection('users').authViaEmail(email.value, password.value);
         // TODO: Better error handling
         if (userData) {
             userStore.userID = userData.user.id;

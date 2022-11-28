@@ -21,7 +21,7 @@ const password = ref("");
 const authUser = async () => {
     try {
         // Authenticate the user via email and password
-        const userData = await $pb?.Users.authViaEmail(email.value, password.value);
+        const userData = await $pb?.collection('users').authWithPassword(email.value, password.value);
         if (userData) {
             userStore.userID = userData.user.id;
             userStore.username = userData.user.profile?.username;
