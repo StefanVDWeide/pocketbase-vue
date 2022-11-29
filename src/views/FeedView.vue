@@ -7,7 +7,7 @@ import IndividualPostComponent from '../components/IndividualPostComponent.vue';
 const $pb = inject(pocketBaseSymbol);
 
 // Local reactive variables
-const posts = ref([]);
+const posts = ref<any[]>([]);
 
 // Get all the user's posts
 const getPostList = async () => {

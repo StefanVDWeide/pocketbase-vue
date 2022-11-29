@@ -12,7 +12,7 @@ const $pb = inject(pocketBaseSymbol);
 const userStore = useUserStore();
 
 // Local reactive variables
-const posts = ref([]);
+const posts = ref<any[]>([]);
 
 // Get all the user's posts
 const getOwnedPostList = async () => {
