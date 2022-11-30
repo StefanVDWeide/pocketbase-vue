@@ -7,13 +7,13 @@ import IndividualPostComponent from '../components/IndividualPostComponent.vue';
 const $pb = inject(pocketBaseSymbol);
 
 // Local reactive variables
-const posts = ref({});
+const posts = ref<any[]>([]);
 
 // Get all the user's posts
 const getPostList = async () => {
     try {
-        const list = await $pb?.Records.getFullList("posts", 200, {
-            expand: "userdata"
+        const list = await $pb?.collection("posts").getFullList(200, {
+            expand: "user"
         });
         if (list) {
             posts.value = list
@@ -24,13 +24,13 @@ const getPostList = async () => {
 }
 
 const subscribeToAllPosts = async () => {
-    await $pb?.Realtime.subscribe("posts", async function (e) {
+    await $pb?.realtime.subscribe("posts", async function (e) {
         await getPostList();
     })
 }
 
 const unsubscribeToAllPosts = async () => {
-    await $pb?.Realtime.unsubscribe("posts");
+    await $pb?.realtime.unsubscribe("posts");
 }
 
 onMounted(async () => {
@@ -47,7 +47,7 @@ onUnmounted(async () => {
 <template>
     <div>
         <h1 class="mb-3 text-2xl">Feed</h1>
-        <div class="grid grid-cols-3">
+        <div v-if="posts" class="grid grid-cols-3">
             <div v-for="post in posts" class="col-start-2 col-span-1">
                 <IndividualPostComponent :post-data="post" />
             </div>

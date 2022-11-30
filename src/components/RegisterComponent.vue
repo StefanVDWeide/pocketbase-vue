@@ -24,7 +24,8 @@ const createUser = async () => {
     try {
         if (validateInput()) {
             // Create new user
-            const user = await $pb?.Users.create({
+            const user = await $pb?.collection("users").create({
+                username: username.value,
                 email: email.value,
                 password: password.value,
                 passwordConfirm: passwordConfirm.value,
@@ -32,9 +33,6 @@ const createUser = async () => {
             if (user) {
                 // Authenticate the user in order to set the username
                 await authUser();
-
-                // Set the username
-                await $pb?.Records.update("profiles", user.profile!.id, { username: username.value })
 
                 // After succesfull user registration, redirect to dashboard
                 router.push({ path: "/dashboard" });
@@ -52,19 +50,18 @@ const createUser = async () => {
 // Function to authenticate the user based on email and password
 const authUser = async () => {
     try {
-        const userData = await $pb?.Users.authViaEmail(email.value, password.value);
-        // TODO: Better error handling
+        // Authenticate the user via email and password
+        const userData = await $pb?.collection("users").authWithPassword(email.value, password.value);
         if (userData) {
-            userStore.userID = userData.user.id;
-            userStore.username = userData.user.profile?.username;
-            userStore.userProfileID = userData.user.profile?.id!;
-        } else {
-            console.log("error");
+            userStore.userID = userData.record.id;
+            userStore.username = userData.record.profile?.username;
+            userStore.userProfileID = userData.record.profile?.id!;
+            router.push({ path: "/dashboard" })
         }
     } catch (error) {
         console.log(error)
     }
-};
+}
 
 // Simple utility function to validate input. Easiliy extendable with additional checks if needed
 const validateInput = () => {

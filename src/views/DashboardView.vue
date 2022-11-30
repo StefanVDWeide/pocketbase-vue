@@ -12,14 +12,14 @@ const $pb = inject(pocketBaseSymbol);
 const userStore = useUserStore();
 
 // Local reactive variables
-const posts = ref({});
+const posts = ref<any[]>([]);
 
 // Get all the user's posts
 const getOwnedPostList = async () => {
     try {
-        const list = await $pb?.Records.getFullList("posts", 200, {
+        const list = await $pb?.collection("posts").getFullList(200, {
             filter: `user = '${userStore.userID}'`,
-            expand: "userdata"
+            expand: "user"
         });
         if (list) {
             posts.value = list
@@ -38,7 +38,7 @@ onMounted(() => {
 <template>
     <div>
         <h1 class="mb-3 text-2xl">Dashboard</h1>
-        <div class="grid grid-cols-2 gap-8">
+        <div v-if="posts" class="grid grid-cols-2 gap-8">
             <div>
                 <div v-for="post in posts">
                     <IndividualPostComponent :post-data="post" />

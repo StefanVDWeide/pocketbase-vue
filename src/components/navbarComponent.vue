@@ -17,7 +17,7 @@ const logoutUser = () => {
     // Manual reset because Pinia using the composition API does not support the $reset function
     userStore.clear();
     // Remove the PocketBase token
-    $pb?.AuthStore.clear();
+    $pb?.authStore.clear();
     // Redirect to the login page
     router.push({ path: "/" });
 }
@@ -39,17 +39,17 @@ const logoutUser = () => {
         </div>
         <div class="lg:relative text-xl font-medium lg:flex lg:flex-grow items-center hidden">
             <ul class="flex flex-row list-none ml-auto">
-                <li v-if="$pb?.AuthStore.token" class="pr-5">
+                <li v-if="$pb?.authStore.token" class="pr-5">
                     <router-link to="/feed">
                         Feed
                     </router-link>
                 </li>
-                <li v-if="$pb?.AuthStore.token" class="pr-5">
+                <li v-if="$pb?.authStore.token" class="pr-5">
                     <router-link to="/dashboard">
                         Dashboard
                     </router-link>
                 </li>
-                <li v-if="$pb?.AuthStore.token" class="pr-5">
+                <li v-if="$pb?.authStore.token" class="pr-5">
                     <span @click="logoutUser">
                         Logout
                     </span>
